@@ -3,7 +3,9 @@ const quicksort = (arr) => {
     return 'Not a Array';
   }
 
-  if (arr.length === 0) return [];
+  if (arr.length <= 1) {
+    return arr;
+  };
   
   const left = [],
   			right = [],
