@@ -11,16 +11,20 @@ const arrayToBT = (nums) => {
   const queue = [root];
   let i = 1;
 
-  while (i < nums.length - 1) {
+  while (i < nums.length) {
     const node = queue.shift();
     const leftVal = nums[i];
-    const rightVal = nums[i + 1];
 
     if (leftVal || leftVal === 0) {
       node.left = new ListNode(leftVal);
       queue.push(node.left);
     }
 
+    if (i + 1 === nums.length) {
+      break;
+    }
+
+    const rightVal = nums[i + 1];
     if (rightVal || rightVal === 0) {
       node.right = new ListNode(rightVal);
       queue.push(node.right);
@@ -31,4 +35,4 @@ const arrayToBT = (nums) => {
   return root;
 };
 
-console.log(arrayToBT([3, null, 2, 4, 5, 4, 5]));
+console.log(arrayToBT([3, 2, 1, 4]));

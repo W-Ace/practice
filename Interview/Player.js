@@ -22,18 +22,18 @@ const team = [
 ];
 
 const getLongestTimeOfPlayer = (data) => {
-  const accMap = {};
+  const accMap = new Map();
   let member = [];
   let longestTime = 0;
   data.forEach((per) => {
     per.forEach((player) => {
       const { name, playingTime } = player;
       let accTime = playingTime;
-      if (accMap[name]) {
-        accTime += accMap[name];
+      if (accMap.get(name)) {
+        accTime += accMap.get(name);
       }
 
-      accMap[name] = accTime;
+      accMap.set(name, accTime);
 
       if (accTime > longestTime) {
         member = [name];
