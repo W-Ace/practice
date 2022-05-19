@@ -19,6 +19,8 @@ module.exports = {
     'no-unused-vars': 0,
     "linebreak-style": 0,
     'vue/no-v-html': 0,
+    'max-classes-per-file': 0,
+    'class-methods-use-this': 0,
     'no-shadow': ['error', { 'allow': ['state'] }],
     'import/no-unresolved': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     "import/extensions": 0,

@@ -80,22 +80,28 @@ class Promise {
     return thenablePromise;
   }
 
-  catch(onReject) {
-    return this.then(null, onReject);
+  catch(onRejected) {
+    return this.then(null, onRejected);
   }
 
   run() {
     if (this[STATE] === STATUS_MAP.PENDING) return;
-    const node = document.createTextNode(true);
-    const observer = new MutationObserver(() => {
-      this.processNextTick();
-    });
-    observer.observe(node, {
-      childList: true,
-      attributes: true,
-      characterData: true,
-    });
-    node.data = !node.data;
+    if (typeof window !== 'undefined') {
+      const node = document.createTextNode(true);
+      const observer = new MutationObserver(() => {
+        this.processNextTick();
+      });
+      observer.observe(node, {
+        childList: true,
+        attributes: true,
+        characterData: true,
+      });
+      node.data = !node.data;
+    } else {
+      process.nextTick(() => {
+        this.processNextTick();
+      });
+    }
   }
 
   processNextTick() {
@@ -124,24 +130,16 @@ class Promise {
       throw new TypeError('TypeError: Chaining cycle detected for promise');
     }
 
-    let called;
-
     if (x instanceof Promise) {
       try {
         const onFulfilled = (value) => {
-          if (called) return;
-          called = true;
           this.resolvePromise(value);
         };
         const onRejected = (reason) => {
-          if (called) return;
-          called = true;
           this.transition(STATUS_MAP.REJECTED, reason);
         };
         x.then(onFulfilled, onRejected);
       } catch (error) {
-        if (called) return;
-        called = true;
         this.transition(STATUS_MAP.REJECTED, error);
       }
     } else {
