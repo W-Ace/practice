@@ -35,4 +35,16 @@ const arrayToBT = (nums) => {
   return root;
 };
 
-console.log(arrayToBT([3, 2, 1, 4]));
+const rArrayToBt = (arr, i) => {
+  let root = null;
+  if (i < arr.length) {
+    root = new ListNode(arr[i]);
+
+    root.left = rArrayToBt(arr, 2 * i + 1);
+
+    root.right = rArrayToBt(arr, 2 * i + 2);
+  }
+  return root;
+};
+
+console.log(rArrayToBt([3, 2, 1, 4], 0));
